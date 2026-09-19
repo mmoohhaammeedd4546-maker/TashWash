@@ -1,0 +1,1 @@
+-- No-op: the restored 0001 migration does not create the redundant users_username_idx index.

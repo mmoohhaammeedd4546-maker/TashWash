@@ -1,5 +1,27 @@
 {
   "version": "7",
   "dialect": "mysql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1789837746861,
+      "tag": "0000_crazy_marvel_zombies",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1789837907403,
+      "tag": "0001_noisy_titanium_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1789837956395,
+      "tag": "0002_omniscient_sebastian_shaw",
+      "breakpoints": true
+    }
+  ]
 }
