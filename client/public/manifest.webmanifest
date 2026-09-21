@@ -1,0 +1,16 @@
+{
+  "name": "طش ورش | Tash Wash",
+  "short_name": "طش ورش",
+  "description": "نظام إدارة مغسلة السيارات للفواتير والخدمات والتقارير",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6fafb",
+  "theme_color": "#073b4c",
+  "icons": [
+    { "src": "/pwa-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
