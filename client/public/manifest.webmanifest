@@ -11,6 +11,6 @@
   "background_color": "#f6fafb",
   "theme_color": "#073b4c",
   "icons": [
-    { "src": "/pwa-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "/tash-wash-logo.jpg", "sizes": "968x646", "type": "image/jpeg", "purpose": "any maskable" }
   ]
 }
