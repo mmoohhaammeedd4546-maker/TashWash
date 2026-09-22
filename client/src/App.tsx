@@ -129,11 +129,38 @@ function InvoiceDetailPage() {
 
   const createPdf = async () => {
     if (!receiptRef.current) throw new Error("تعذر تجهيز الفاتورة");
-    const canvas = await html2canvas(receiptRef.current, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+    const canvas = await html2canvas(receiptRef.current, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      onclone: (clonedDocument) => {
+        // Render from computed inline styles only. This avoids html2canvas parsing
+        // Tailwind's modern oklch/oklab stylesheet functions on mobile browsers.
+        const originalNodes = Array.from(receiptRef.current?.querySelectorAll("*") || []);
+        const clonedNodes = Array.from(clonedDocument.querySelectorAll(".receipt-sheet *"));
+        const safe = (value: string) => value.replace(/oklch\([^)]*\)/gi, "#64748b").replace(/oklab\([^)]*\)/gi, "#64748b");
+        const properties = ["display", "position", "box-sizing", "width", "height", "max-width", "min-width", "margin", "padding", "border", "border-radius", "background", "background-color", "color", "font-family", "font-size", "font-weight", "line-height", "text-align", "vertical-align", "direction", "grid-template-columns", "gap", "justify-content", "align-items", "object-fit", "overflow"];
+        clonedNodes.forEach((clonedNode, index) => {
+          const originalNode = originalNodes[index];
+          if (!originalNode) return;
+          const computed = window.getComputedStyle(originalNode);
+          const inline = properties.map((property) => `${property}:${safe(computed.getPropertyValue(property))}`).join(";");
+          (clonedNode as HTMLElement).setAttribute("style", inline);
+        });
+        clonedDocument.querySelectorAll("link[rel=stylesheet], style").forEach((node) => node.remove());
+        const clonedReceipt = clonedDocument.querySelector(".receipt-sheet") as HTMLElement | null;
+        if (clonedReceipt) {
+          clonedReceipt.style.background = "#ffffff";
+          clonedReceipt.style.color = "#163d46";
+          clonedReceipt.style.width = "860px";
+          clonedReceipt.style.maxWidth = "860px";
+        }
+      },
+    });
     const image = canvas.toDataURL("image/jpeg", 0.94);
     const width = 80;
     const height = Math.max(80, (canvas.height / canvas.width) * width);
-    const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: [width, height] });
+    const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: [width, height], compress: true });
     pdf.addImage(image, "JPEG", 0, 0, width, height, undefined, "FAST");
     return pdf.output("blob");
   };
