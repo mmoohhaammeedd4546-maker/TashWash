@@ -3,31 +3,13 @@
   publish = "dist/public"
   functions = "netlify/functions"
 
+# Keep all application APIs on the same production-origin function.
+# This prevents preview-server HTML error pages from reaching the tRPC client.
 [[redirects]]
   from = "/api/*"
-  to = "https://3000-i2ju5tgbso6q83lodh02e-4e0c3d64.sg2.manus.computer/api/:splat"
+  to = "/.netlify/functions/api"
   status = 200
   force = true
-
-[[redirects]]
-  from = "/api/trpc/*"
-  to = "/.netlify/functions/api"
-  status = 200
-
-[[redirects]]
-  from = "/api/trpc"
-  to = "/.netlify/functions/api"
-  status = 200
-
-[[redirects]]
-  from = "/api/oauth/*"
-  to = "/.netlify/functions/api"
-  status = 200
-
-[[redirects]]
-  from = "/api/storage/*"
-  to = "/.netlify/functions/api"
-  status = 200
 
 [[redirects]]
   from = "/*"
