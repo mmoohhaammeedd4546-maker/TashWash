@@ -42,7 +42,10 @@ export function getSessionCookieOptions(
   return {
     httpOnly: true,
     path: "/",
-    sameSite: "none",
+    // The dashboard and API share the same site. Lax is accepted by Safari,
+    // avoids the SameSite=None + Secure rejection, and still sends the cookie
+    // for all normal same-origin navigation and API requests.
+    sameSite: "lax",
     secure: isSecureRequest(req),
   };
 }
