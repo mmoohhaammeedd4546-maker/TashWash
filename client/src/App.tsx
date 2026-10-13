@@ -138,7 +138,9 @@ function InvoiceDetailPage() {
         // Tailwind's modern oklch/oklab stylesheet functions on mobile browsers.
         const originalNodes = Array.from(receiptRef.current?.querySelectorAll("*") || []);
         const clonedNodes = Array.from(clonedDocument.querySelectorAll(".receipt-sheet *"));
-        const safe = (value: string) => value.replace(/oklch\([^)]*\)/gi, "#64748b").replace(/oklab\([^)]*\)/gi, "#64748b");
+        const safe = (value: string) => value
+          .replace(/(?:oklch|oklab|lch|lab|color)\([^)]*\)/gi, "#64748b")
+          .replace(/color\([^)]*\)/gi, "#64748b");
         const properties = ["display", "position", "box-sizing", "width", "height", "max-width", "min-width", "margin", "padding", "border", "border-radius", "background", "background-color", "color", "font-family", "font-size", "font-weight", "line-height", "text-align", "vertical-align", "direction", "grid-template-columns", "gap", "justify-content", "align-items", "object-fit", "overflow"];
         clonedNodes.forEach((clonedNode, index) => {
           const originalNode = originalNodes[index];
@@ -148,6 +150,12 @@ function InvoiceDetailPage() {
           (clonedNode as HTMLElement).setAttribute("style", inline);
         });
         clonedDocument.querySelectorAll("link[rel=stylesheet], style").forEach((node) => node.remove());
+        clonedDocument.querySelectorAll<HTMLElement>("[style]").forEach((node) => {
+          node.setAttribute("style", safe(node.getAttribute("style") || ""));
+        });
+        clonedDocument.querySelectorAll<HTMLElement>(".receipt-sheet, .receipt-sheet *").forEach((node) => {
+          node.removeAttribute("class");
+        });
         const clonedReceipt = clonedDocument.querySelector(".receipt-sheet") as HTMLElement | null;
         if (clonedReceipt) {
           clonedReceipt.style.background = "#ffffff";

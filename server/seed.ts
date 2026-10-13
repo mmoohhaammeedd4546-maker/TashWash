@@ -10,8 +10,8 @@ async function main() {
 
   const admin = await database.select().from(users).where(eq(users.username, "admin")).limit(1);
   if (!admin[0]) {
-    await database.insert(users).values({ openId: "local:admin", username: "admin", name: "مدير النظام", passwordHash: await hashPassword("admin123"), role: "admin", active: true, mustChangePassword: true, loginMethod: "password" });
-    console.log("Created initial admin user: admin / admin123");
+    await database.insert(users).values({ openId: "local:admin", username: "admin", name: "مدير النظام", passwordHash: await hashPassword("123123"), role: "admin", active: true, mustChangePassword: false, loginMethod: "password" });
+    console.log("Created initial admin user: admin / 123123");
   } else {
     console.log("Admin user already exists; no password was changed.");
   }
