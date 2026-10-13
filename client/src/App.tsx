@@ -54,8 +54,8 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    try { await login.mutateAsync({ username, password }); await utils.auth.me.invalidate(); toast.success("تم تسجيل الدخول بنجاح"); setLocation("/dashboard"); }
-    catch (error: any) { toast.error(error?.message || "تعذر تسجيل الدخول"); }
+    try { await login.mutateAsync({ username: username.trim().toLowerCase(), password }); await utils.auth.me.invalidate(); toast.success("تم تسجيل الدخول بنجاح"); setLocation("/dashboard"); }
+    catch (error: any) { toast.error(error?.message === "The string did not match the expected pattern." ? "تعذر الاتصال بالخادم. أعد تحميل الصفحة وحاول مرة أخرى." : error?.message || "تعذر تسجيل الدخول"); }
   };
   return <div className="min-h-screen bg-[#f7fbfc] flex items-center justify-center p-4 relative overflow-hidden" dir="rtl">
     <div className="absolute -top-28 -left-24 h-96 w-96 rounded-full bg-cyan-200/50 blur-3xl" /><div className="absolute -bottom-40 -right-12 h-96 w-96 rounded-full bg-blue-100/70 blur-3xl" />

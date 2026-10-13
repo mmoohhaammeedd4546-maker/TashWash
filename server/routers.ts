@@ -55,7 +55,7 @@ export const appRouter = router({
     login: publicProcedure
       .input(z.object({ username: z.string().trim().min(3).max(64), password: z.string().min(1).max(200) }))
       .mutation(async ({ ctx, input }) => {
-        const user = await db.getUserByUsername(input.username);
+        const user = await db.getUserByUsername(input.username.toLowerCase());
         if (!user || !user.active || !(await verifyPassword(input.password, user.passwordHash))) {
           throw new TRPCError({ code: "UNAUTHORIZED", message: "اسم المستخدم أو كلمة المرور غير صحيحة" });
         }
